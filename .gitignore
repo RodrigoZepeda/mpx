@@ -1,0 +1,10 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+old_functions/
+
+mpx
+!mpx.stan
+!mpx.rds
