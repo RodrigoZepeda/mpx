@@ -1,0 +1,152 @@
+---
+title: "Modelling a vaccination campaign against monkeypox in Mexico"
+author: "Rodrigo Zepeda-Tello"
+format: html
+bibliography: references.bib
+execute: 
+  fig-dpi: 750
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+pacman::p_load(tidyverse, ggdag, latex2exp, ggtext)
+```
+
+## Introduction
+
+## Data
+
+### Monkeypox cases
+
+Weekly incident cases were obtained from @owidmonkeypox. 
+
+### Parameter information
+
+
+
+## Model
+
+Our model is a pair-formation Susceptible-Infected-Recovered (SIR) system of differential equations adapted from [@betti2022pair](https://doi.org/10.1101/2022.08.17.22278897). Briefly, in pair formation models the infection is driven by the rate of **partnership** formation between individuals and transmission probabilities per sexual act within the partnership [@kretzschmar2017pair](https://doi.org/10.1016/j.idm.2017.07.002). In these models, **single** individuals (individuals that don't form partnerships) don't get infected nor infect others. Individuals within **partnerships** only get infected with a probability $\phi$ if the other individual within that partnership is infected already. 
+
+```{r}
+#| label: fig-diagram-model
+#| message: false
+#| warning: false
+#| fig-height: 3.5
+#| fig-width: 8
+#| echo: false
+#| fig-align: center
+#| fig-cap: "Diagram of the model. Bright red node $P_{SI}$ is the main driver of the infection as it represents a partnership between a Susceptible and an Infected individual. This partnership irradiates the infection towards $P_{II}$ if the susceptible becomes infected and the partnership continues. The partnership might also dissolve into the susceptible $S$ and the infected $I$ or might not result in an infection but a recovery in $P_{SR}$."
+set.seed(2456)
+dag_coords <-
+  tibble(
+    name = c("S", "I", "R",  "PSS", "PSI", "PII", "PSR", "PIR", "PRR"),
+    x    = c(1:3, 1:3, 3, 4.5, 4),
+    y    = c(rep(1.5, 3), rep(1, 3), 1.25, 1.25, 1)
+  )
+
+# save our DAG
+dagify(S ~ PSS,
+       S ~ PSI,
+       S ~ PSR,
+       PSR ~ S,
+       PII ~ S,
+       PSS ~ S,
+       R ~ PRR,
+       I ~ PSI,
+       R ~ I,
+       I ~ PII,
+       I ~ PIR,
+       PII ~ I,
+       PIR ~ PII,
+       PSI ~ S,
+       PII ~ PSI,
+       PSR ~ PSI,
+       PSI ~ I,
+       PSR ~ R,
+       R ~ PIR,
+       R ~ PSR,
+       PRR ~ R,
+       PIR ~ R,
+       PIR ~ I,
+       coords = dag_coords) %>% 
+  tidy_dagitty() %>% 
+  mutate(colour = case_when(
+    str_detect(name, "PSI") ~ "#d74f7c",
+    str_detect(to, "PSI")   ~ "#d74f7c",
+    TRUE ~ "#45485c"
+  )) |>
+  mutate(colpoint = if_else(str_detect(name,"PSI"),"A","B")) |>
+  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
+  geom_dag_point(aes(colour = colpoint)) +
+  geom_dag_edges(edge_alpha = 1, aes(edge_colour = colour)) +  
+  geom_dag_text(label = c("I", TeX("$P_{II}$"), TeX("$P_{IR}$"), 
+                          TeX("$P_{RR}$"), TeX("$P_{SI}$"), TeX("$P_{SR}$"), 
+                          TeX("$P_{SS}$"), "R", "S"), 
+                parse = TRUE) +
+  theme_dag() +
+  theme(
+    legend.position = "none"
+  ) +
+  scale_color_manual(values = c("#d74f7c","#45485c"))
+```
+
+The variables of the model are specified in @tbl-variables.
+
+| Variable    | Definition |
+|-------------|---------------------------------------|
+| $S$         | **Single** susceptible individuals    |
+| $I$         | **Single** infected individuals    |
+| $R$         | **Single** recovered individuals    |
+| $P_{SS}$    | **Partnership** of two susceptible individuals    |
+| $P_{SI}$    | **Partnership** of one susceptible and one infected individuals   |
+| $P_{SR}$    | **Partnership** of one susceptible and one recovered individuals   |
+| $P_{II}$    | **Partnership** of two infected individuals    |
+| $P_{IR}$    | **Partnership** of one infected and one recovered individuals   |
+| $P_{RR}$    | **Partnership** of two recovered individuals    |
+
+: Variables used in the model @eq-model. {#tbl-variables}
+
+The differential equations representation for the model is:
+$$
+\begin{align}
+\frac{dS}{dt}      &=  - \rho S + \sigma (2 P_{SS} + P_{SI} + P_{SR})\\
+\frac{dI}{dt}      &= - (\rho + \delta) I  + \sigma (2P_{II} + P_{SI} + P_{IR}) \\
+\frac{dR}{dt}      &= - \rho R + \delta I + \sigma (2 P_{RR} + P_{SR} + P_{IR}) \\
+\frac{dP_{SS}}{dt} &= \frac{1}{2}\rho \frac{S^2}{N} - \sigma P_{SS} \\
+\frac{dP_{SI}}{dt} &= \rho (1 - h) \frac{SI}{N} - (\sigma + \phi h + \delta) P_{SI} \\
+\frac{dP_{II}}{dt} &= \frac{1}{2}\rho \frac{I^2}{N} + \rho h \frac{SI}{N} + \phi h P_{SI} - (\sigma + 2\delta)P_{II} \\
+\frac{dP_{SR}}{dt} &= \delta P_{SI} + \rho \frac{SR}{N} - \sigma P_{SR} \\
+\frac{dP_{IR}}{dt} &= \rho \frac{IR}{N} + \delta P_{II} - (\sigma +  \delta) P_{IR} \\
+\frac{dP_{RR}}{dt} &= \delta P_{IR} + \frac{1}{2}\rho \frac{R^2}{N} - \sigma P_{RR} \\
+\end{align}
+$$ {#eq-model}
+
+With the parameters and their meanings are established in @tbl-parameters. As the model was fitted using a Bayesian framework, _prior_ distributions for the parameters are also specified in @tbl-parameters. 
+
+| Parameter | Definition |
+|-----------|-----------------------------------------|
+| $\rho$    | Partnership formation rate              |
+| $\sigma$  | Partnership dissolution rate            |
+| $\delta$  | Infection recovery rate                 |
+| $h$       | Probability of transmission per contact |
+| $\phi$    | Contact rate per partnership            |
+
+: Parameters used in the model @eq-model. {#tbl-parameters}
+
+
+
+## Code availability
+
+Both the code and the data can be found in our [Github repository](https://github.com/rodrigoZepeda/mpx)
+
+
+
+
+
+## References

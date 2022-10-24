@@ -7,7 +7,7 @@
 .Rbuildignore
 
 old_functions/
+References/
 
 mpx
 !mpx.stan
-!mpx.rds
