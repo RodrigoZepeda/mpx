@@ -1,14 +1,20 @@
 # MPX
 
+> :warning: Under development. Structure and models will change. 
+
 Implements a pair formation model adapted from [Betti _et al_](https://doi.org/10.1101/2022.08.17.22278897) for modeling Monkeypox and Monkeypox vaccination in Mexico. 
 
 > For more information on pair formation models for sexually transmitted infections see [Kretzschmar and Heijne](https://doi.org/10.1016/j.idm.2017.07.002)
 
 ## Data
 
+Data is downloaded from the weekly reports by the Epidemiology Directorate (Dirección General de Epidemiología). It is parsed in `Python` and is available as `MPX_reporte_dge.csv`.
+
+![Casos acumulados de viruela símica en México por entidad](images/Monkeypox_Mx_DGE.png)
+
 ![Incidencia semanal de viruela símica en México](images/Monkeypox_Mx.png)
 
-Data is downloaded periodically from [Our World in Data](https://ourworldindata.org/monkeypox) which in turn results from an update from the World Health Organization. 
+
 
 ## Model
 

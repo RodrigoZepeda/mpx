@@ -14,6 +14,7 @@ execute:
 #| echo: false
 #| message: false
 #| warning: false
+remake_plots <- FALSE
 pacman::p_load(tidyverse, ggdag, latex2exp, ggtext)
 ```
 
@@ -23,7 +24,7 @@ pacman::p_load(tidyverse, ggdag, latex2exp, ggtext)
 
 ### Monkeypox cases
 
-Weekly incident cases were obtained from @owidmonkeypox. 
+Weekly incident cases were obtained from the reports of the General Directorate of Epidemiology of Mexico [@mpxdge].
 
 ### Parameter information
 
@@ -31,69 +32,114 @@ Weekly incident cases were obtained from @owidmonkeypox.
 
 ## Model
 
-Our model is a pair-formation Susceptible-Infected-Recovered (SIR) system of differential equations adapted from [@betti2022pair](https://doi.org/10.1101/2022.08.17.22278897). Briefly, in pair formation models the infection is driven by the rate of **partnership** formation between individuals and transmission probabilities per sexual act within the partnership [@kretzschmar2017pair](https://doi.org/10.1016/j.idm.2017.07.002). In these models, **single** individuals (individuals that don't form partnerships) don't get infected nor infect others. Individuals within **partnerships** only get infected with a probability $\phi$ if the other individual within that partnership is infected already. 
+Our model is a pair-formation Susceptible-Exposed-Infected-Recovered (SEIR) system of differential equations adapted from [@betti2022pair](https://doi.org/10.1101/2022.08.17.22278897). Briefly, in pair formation models the infection is driven by the rate of **partnership** formation between individuals and transmission probabilities per sexual act within the partnership [@kretzschmar2017pair](https://doi.org/10.1016/j.idm.2017.07.002). In these models, **single** individuals (individuals that don't form partnerships) don't get infected nor infect others. Individuals within **partnerships** only get infected with a probability $\phi$ if the other individual within that partnership is infected already. 
 
 ```{r}
 #| label: fig-diagram-model
 #| message: false
 #| warning: false
-#| fig-height: 3.5
-#| fig-width: 8
+#| fig-height: 8.5
+#| fig-width: 20
 #| echo: false
+#| out-width: 100%
 #| fig-align: center
-#| fig-cap: "Diagram of the model. Bright red node $P_{SI}$ is the main driver of the infection as it represents a partnership between a Susceptible and an Infected individual. This partnership irradiates the infection towards $P_{II}$ if the susceptible becomes infected and the partnership continues. The partnership might also dissolve into the susceptible $S$ and the infected $I$ or might not result in an infection but a recovery in $P_{SR}$."
+#| fig-cap: "Diagram of the model. Bright red node $P_{SI}$ is the main driver of the infection as it represents a partnership between a Susceptible and an Infected individual. This partnership irradiates the infection towards $P_{EI}$ if the susceptible becomes infected and the partnership continues. The partnership might also dissolve into the susceptible $S$ and the infected $I$ or might not result in an infection but a recovery of the infected partner $P_{SR}$."
 set.seed(2456)
-dag_coords <-
-  tibble(
-    name = c("S", "I", "R",  "PSS", "PSI", "PII", "PSR", "PIR", "PRR"),
-    x    = c(1:3, 1:3, 3, 4.5, 4),
-    y    = c(rep(1.5, 3), rep(1, 3), 1.25, 1.25, 1)
-  )
+file_model <- "images/model_diagram.svg"
+if (!file.exists(file_model) | remake_plots){
+  dag_coords <-
+    tibble(
+      name = c("S", "E", "I", "R", "V", "PSS", "PSE", "PSI", "PSR", "PSV",
+               "PEE", "PEI", "PER", "PEV","PII","PIR","PIV","PRR","PRV","PVV"),
+      x    = c(1:5, 1,1.1,1.2,1.3,1.4,2.1,2.2,2.3,2.4,3.1,3.2,3.3,4.1,4.2,5.1),
+      y    = c(rep(1.5, 5), c(1.3,1.2,1.1,1,0.9),c(1.3,1.2,1.1,1,0.9),c(1.3,1.2,1.1,1,0.9))
+    )
+  
+  # save our DAG
+  dagplot <- dagify(S ~ PSS,
+         S ~ PSE,
+         S ~ PSI,
+         S ~ PSV,
+         S ~ PSR,
+         E ~ PSE,
+         E ~ PEE,
+         E ~ PEI,
+         E ~ PER,
+         E ~ PEV,
+         I ~ PSI,
+         I ~ PEI,
+         I ~ PII,
+         I ~ PIR,
+         I ~ PIV,
+         V ~ S,
+         V ~ PSV,
+         V ~ PEV,
+         V ~ PIV,
+         V ~ PRV,
+         V ~ PVV,
+         PSS ~ S,
+         PSE ~ E,
+         PSE ~ S,
+         PSI ~ PSE,
+         PSI ~ S,
+         PSI ~ I,
+         PSR ~ R,
+         PSR ~ S,
+         PSV ~ S,
+         PSV ~ V,
+         PSV ~ PSS,
+         PEE ~ E,
+         PEI ~ E,
+         PEI ~ I,
+         PEI ~ PSI,
+         PEI ~ PEE,
+         PER ~ PEI,
+         PER ~ E,
+         PER ~ R,
+         PEV ~ V,
+         PEV ~ E,
+         PEV ~ PSE,
+         PII ~ I,
+         PII ~ PEI,
+         PIV ~ PSI,
+         PIV ~ PEV,
+         PIV ~ I,
+         PIV ~ V,
+         PIR ~ I,
+         PIR ~ R,
+         PIR ~ PII,
+         PRR ~ PIR,
+         PRR ~ R,
+         PRV ~ R,
+         PRV ~ V,
+         PRV ~ PSR,
+         PRV ~ PIV,
+         PVV ~ PSV,
+         PVV ~ V
+         ) %>% 
+    tidy_dagitty() %>% 
+    mutate(colour = case_when(
+      str_detect(name, "PSI") ~ "#d74f7c",
+      str_detect(to, "PSI")   ~ "#d74f7c",
+      str_detect(name, "V") ~ "#7e9bed",
+      str_detect(to, "V")   ~ "#7e9bed",
+      TRUE ~ "#45485c"
+    )) |>
+    mutate(colpoint = if_else(str_detect(name,"PSI"),"A","B")) |>
+    mutate(colpoint = if_else(str_detect(name,"V"),"C", colpoint)) |>
+    ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
+    geom_dag_node(aes(colour = colpoint)) +
+    geom_dag_edges_diagonal(edge_alpha = 1, aes(edge_colour = colour)) +  
+    geom_dag_text(size = 3) +
+    theme_dag() +
+    theme(
+      legend.position = "none"
+    ) +
+    scale_color_manual(values = c("#d74f7c","#45485c","#7e9bed"))
+  ggsave(file_model, dagplot, width = 20, height = 8.5)
+} 
 
-# save our DAG
-dagify(S ~ PSS,
-       S ~ PSI,
-       S ~ PSR,
-       PSR ~ S,
-       PII ~ S,
-       PSS ~ S,
-       R ~ PRR,
-       I ~ PSI,
-       R ~ I,
-       I ~ PII,
-       I ~ PIR,
-       PII ~ I,
-       PIR ~ PII,
-       PSI ~ S,
-       PII ~ PSI,
-       PSR ~ PSI,
-       PSI ~ I,
-       PSR ~ R,
-       R ~ PIR,
-       R ~ PSR,
-       PRR ~ R,
-       PIR ~ R,
-       PIR ~ I,
-       coords = dag_coords) %>% 
-  tidy_dagitty() %>% 
-  mutate(colour = case_when(
-    str_detect(name, "PSI") ~ "#d74f7c",
-    str_detect(to, "PSI")   ~ "#d74f7c",
-    TRUE ~ "#45485c"
-  )) |>
-  mutate(colpoint = if_else(str_detect(name,"PSI"),"A","B")) |>
-  ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
-  geom_dag_point(aes(colour = colpoint)) +
-  geom_dag_edges(edge_alpha = 1, aes(edge_colour = colour)) +  
-  geom_dag_text(label = c("I", TeX("$P_{II}$"), TeX("$P_{IR}$"), 
-                          TeX("$P_{RR}$"), TeX("$P_{SI}$"), TeX("$P_{SR}$"), 
-                          TeX("$P_{SS}$"), "R", "S"), 
-                parse = TRUE) +
-  theme_dag() +
-  theme(
-    legend.position = "none"
-  ) +
-  scale_color_manual(values = c("#d74f7c","#45485c"))
+knitr::include_graphics(file_model)
 ```
 
 The variables of the model are specified in @tbl-variables.
@@ -101,38 +147,48 @@ The variables of the model are specified in @tbl-variables.
 | Variable    | Definition |
 |-------------|---------------------------------------|
 | $S$         | **Single** susceptible individuals    |
-| $I$         | **Single** infected individuals    |
-| $R$         | **Single** recovered individuals    |
-| $P_{SS}$    | **Partnership** of two susceptible individuals    |
-| $P_{SI}$    | **Partnership** of one susceptible and one infected individuals   |
-| $P_{SR}$    | **Partnership** of one susceptible and one recovered individuals   |
-| $P_{II}$    | **Partnership** of two infected individuals    |
-| $P_{IR}$    | **Partnership** of one infected and one recovered individuals   |
-| $P_{RR}$    | **Partnership** of two recovered individuals    |
+| $E$         | **Single** exposed individuals        |
+| $I$         | **Single** infected individuals       |
+| $R$         | **Single** recovered individuals      |
+| $V$         | **Single** vaccinated individuals     |
+| $P_{kl}$    | **Partnership** of two individuals in which one partner belongs to category $k$ and the other to category $l$ (_e.g._ $P_{SI}$ represents a partnership between a susceptible $S$ and an infected $I$ individual).  |
 
 : Variables used in the model @eq-model. {#tbl-variables}
 
 The differential equations representation for the model is:
 $$
 \begin{align}
-\frac{dS}{dt}      &=  - \rho S + \sigma (2 P_{SS} + P_{SI} + P_{SR})\\
-\frac{dI}{dt}      &= - (\rho + \delta) I  + \sigma (2P_{II} + P_{SI} + P_{IR}) \\
-\frac{dR}{dt}      &= - \rho R + \delta I + \sigma (2 P_{RR} + P_{SR} + P_{IR}) \\
-\frac{dP_{SS}}{dt} &= \frac{1}{2}\rho \frac{S^2}{N} - \sigma P_{SS} \\
-\frac{dP_{SI}}{dt} &= \rho (1 - h) \frac{SI}{N} - (\sigma + \phi h + \delta) P_{SI} \\
-\frac{dP_{II}}{dt} &= \frac{1}{2}\rho \frac{I^2}{N} + \rho h \frac{SI}{N} + \phi h P_{SI} - (\sigma + 2\delta)P_{II} \\
-\frac{dP_{SR}}{dt} &= \delta P_{SI} + \rho \frac{SR}{N} - \sigma P_{SR} \\
-\frac{dP_{IR}}{dt} &= \rho \frac{IR}{N} + \delta P_{II} - (\sigma +  \delta) P_{IR} \\
-\frac{dP_{RR}}{dt} &= \delta P_{IR} + \frac{1}{2}\rho \frac{R^2}{N} - \sigma P_{RR} \\
+\frac{dS}{dt}      &= -(\rho + \nu) S + \sigma (2 P_{SS} + P_{SE} + P_{SI} + P_{SR} + P_{SV})\\
+\frac{dE}{dt}      &= -(\rho + \theta) E + \sigma (P_{SE} + 2 P_{EE} + P_{EI} + P_{ER} + P_{EV})\\
+\frac{dI}{dt}      &= -(\rho + \delta) I + \theta E + \sigma (P_{SI} + P_{EI} + 2P_{II} + P_{IR} + P_{IV})  \\
+\frac{dR}{dt}      &= - \rho R + \delta I + \sigma (P_{SR} + P_{ER} + P_{IR} + 2 P_{RR} + P_{RV})  \\
+\frac{dV}{dt}      &= - \rho V + \nu S  + \sigma (P_{SV} + P_{EV} + P_{IV} + P_{RV} + 2 P_{VV})  \\
+\frac{dP_{SS}}{dt} &= \frac{1}{2}\rho \frac{S^2}{N} - (\sigma + 2 \nu) P_{SS} \\
+\frac{dP_{SE}}{dt} &= \rho \frac{SE}{N} - (\sigma + \theta + \nu) P_{SE} \\
+\frac{dP_{SI}}{dt} &= \rho (1 - h) \frac{SI}{N} + \theta P_{SE} - (\sigma + \phi h + \delta + \nu) P_{SI} \\
+\frac{dP_{SR}}{dt} &= \rho \frac{SR}{N} + \delta P_{SI} - (\sigma  + \nu) P_{SR} \\
+\frac{dP_{SV}}{dt} &= \rho \frac{SV}{N} + 2 \nu P_{SS} - (\sigma  + \nu) P_{SV} \\
+\frac{dP_{EE}}{dt} &= \frac{1}{2} \rho \frac{E^2}{N} - (\sigma + 2 \theta) P_{EE} \\
+\frac{dP_{EI}}{dt} &= \rho \frac{EI}{N} + \rho h \frac{SI}{N}  + \phi h P_{SI} + 2  \theta P_{EE} - (\sigma + \theta + \delta) P_{EI} \\
+\frac{dP_{ER}}{dt} &= \rho \frac{ER}{N} + \delta P_{EI} - (\sigma + \theta) P_{ER} \\
+\frac{dP_{EV}}{dt} &= \rho \frac{EV}{N} + \nu P_{SE} - (\sigma + \theta) P_{EV} \\
+\frac{dP_{II}}{dt} &= \frac{1}{2} \rho \frac{I^2}{N} + \theta P_{EI} - (\sigma + 2 \delta) P_{II} \\
+\frac{dP_{IR}}{dt} &= \rho \frac{IR}{N} + 2 \delta P_{II} + \theta P_{ER} - (\sigma + \delta) P_{IR} \\
+\frac{dP_{IV}}{dt} &= \rho \frac{IV}{N} + \theta P_{EV} + \nu P_{SI} - (\sigma + \delta) P_{IV} \\
+\frac{dP_{RR}}{dt} &= \frac{1}{2} \rho \frac{R^2}{N} + \delta P_{IR} - \sigma P_{RR} \\
+\frac{dP_{RV}}{dt} &= \rho \frac{RV}{N} + \delta P_{IV} + \nu P_{SR} - \sigma P_{RV} \\
+\frac{dP_{VV}}{dt} &= \frac{1}{2} \rho \frac{V^2}{N} + \nu P_{SV}  - \sigma  P_{VV} \\
 \end{align}
 $$ {#eq-model}
 
 With the parameters and their meanings are established in @tbl-parameters. As the model was fitted using a Bayesian framework, _prior_ distributions for the parameters are also specified in @tbl-parameters. 
 
-| Parameter | Definition |
+| Parameter | Definition                              |
 |-----------|-----------------------------------------|
 | $\rho$    | Partnership formation rate              |
 | $\sigma$  | Partnership dissolution rate            |
+| $\nu$     | Vaccination rate                        |
+| $\theta$  | Incubation rate                         |
 | $\delta$  | Infection recovery rate                 |
 | $h$       | Probability of transmission per contact |
 | $\phi$    | Contact rate per partnership            |

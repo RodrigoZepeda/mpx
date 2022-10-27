@@ -53,8 +53,8 @@ estados = {"CHIAPAS","VERACRUZ","NUEVO LEÓN","GUERRERO","MICHOACÁN","TAMAULIPA
            "JALISCO","MORELOS","PUEBLA","NAYARIT","TABASCO","QUINTANA ROO","SINALOA",
            "YUCATÁN","SONORA","MÉXICO","COLIMA","SAN LUIS POTOSÍ","OAXACA","HIDALGO",
            "COAHUILA","CAMPECHE","BAJA CALIFORNIA","BAJA CALIFORNIA SUR","CHIHUAHUA",
-           "DURANGO","GUANAJUATO","QUERÉTARO","TLAXCALA","ZACATECAS",
-           "AGUASCALIENTES","CIUDAD DE MÉXICO","BAJA CALIFORNIA **"}
+           "DURANGO","GUANAJUATO","QUERÉTARO","TLAXCALA","ZACATECAS","QUERETARO","SAN LUIS POTOSI",
+           "AGUASCALIENTES","CIUDAD DE MÉXICO","BAJA CALIFORNIA **","ESTADO DE MÉXICO"}
 
 #Directorio
 fnames = [os.path.join(download_folder, f) for f in listdir(download_folder)]
@@ -63,7 +63,7 @@ fnames = [name for name in fnames if name.find(".pdf") != -1]
 
 
 for name in fnames:
-    print("Leyendo" + name)
+    print("Leyendo " + name)
 
     fecha =  datetime.strptime(re.sub(r'.*/|.pdf','',name), "%d%m%y")
 
@@ -82,7 +82,7 @@ for name in fnames:
     elif fecha == datetime.strptime("270922", "%d%m%y"):
         coord = (184, 65, 680, 310)
     elif fecha == datetime.strptime("190922", "%d%m%y"):
-        coord = (210, 62, 690, 310)
+        coord = (210, 62, 690, 304)
     elif fecha == datetime.strptime("080822", "%d%m%y"):
         coord = (237, 62, 470, 320)
     elif fecha == datetime.strptime("010822", "%d%m%y"):
@@ -94,9 +94,21 @@ for name in fnames:
     else:
         coord = (169, 62, 650, 378)
 
-    table = tabula.read_pdf(name, pages = 3, area=coord, pandas_options = {'header': None})
-    df = table[0]
-    df = df[df[0].str.upper().isin(estados)]
+    if fecha == datetime.strptime("251022", "%d%m%y"):
+        d = {'Estado': ["Ciudad de México", "Yucatán", "Jalisco", "Quintana Roo", "Estado de México",
+                        "Tabasco","Morelos","Querétaro","Campeche","Nayarit","Nuevo León","Baja California",
+                        "Colima","Aguascalientes","Chiapas","Sinaloa","Hidalgo","Puebla","Tlaxcala","Chihuahua","Coahuila",
+                        "Guanajuato","Tamaulipas","Veracruz","Oaxaca","Zacatecas","Sonora","Baja California Sur",
+                        "Michoacán","Guerrero","San Luis Potosí","Durango"],
+             'Casos': [1601, 93, 301, 58, 272, 39, 16, 17, 7, 9, 30, 19, 4, 7, 28, 13, 12, 25, 5, 13, 11, 16,
+                        9, 20, 8, 3, 4, 1, 6, 4, 2, 1]
+             }
+        df = pd.DataFrame(d)
+    else:
+        table = tabula.read_pdf(name, pages=3, area=coord, pandas_options={'header': None})
+        df = table[0]
+        df = df[df[0].str.upper().isin(estados)]
+
 
     if (df.shape[1] == 2):
         df.columns = ["Estado","Casos"]

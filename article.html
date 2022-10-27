@@ -96,7 +96,7 @@ div.csl-indent {
 <h2 class="anchored" data-anchor-id="data">Data</h2>
 <section id="monkeypox-cases" class="level3">
 <h3 class="anchored" data-anchor-id="monkeypox-cases">Monkeypox cases</h3>
-<p>Weekly incident cases were obtained from <span class="citation" data-cites="owidmonkeypox">Mathieu et al. (<a href="#ref-owidmonkeypox" role="doc-biblioref">2022</a>)</span>.</p>
+<p>Weekly incident cases were obtained from the reports of the General Directorate of Epidemiology of Mexico <span class="citation" data-cites="mpxdge">(<a href="#ref-mpxdge" role="doc-biblioref">Secretaría de Salud 2022</a>)</span>.</p>
 </section>
 <section id="parameter-information" class="level3">
 <h3 class="anchored" data-anchor-id="parameter-information">Parameter information</h3>
@@ -104,13 +104,13 @@ div.csl-indent {
 </section>
 <section id="model" class="level2">
 <h2 class="anchored" data-anchor-id="model">Model</h2>
-<p>Our model is a pair-formation Susceptible-Infected-Recovered (SIR) system of differential equations adapted from <a href="https://doi.org/10.1101/2022.08.17.22278897"><span class="citation" data-cites="betti2022pair">Betti, Farrell, and Heffernan (</span></a><a href="#ref-betti2022pair" role="doc-biblioref">2022</a>). Briefly, in pair formation models the infection is driven by the rate of <strong>partnership</strong> formation between individuals and transmission probabilities per sexual act within the partnership <span class="citation" data-cites="kretzschmar2017pair">Kretzschmar and Heijne (<a href="#ref-kretzschmar2017pair" role="doc-biblioref">2017</a>)</span>. In these models, <strong>single</strong> individuals (individuals that don’t form partnerships) don’t get infected nor infect others. Individuals within <strong>partnerships</strong> only get infected with a probability <span class="math inline">\(\phi\)</span> if the other individual within that partnership is infected already.</p>
+<p>Our model is a pair-formation Susceptible-Exposed-Infected-Recovered (SEIR) system of differential equations adapted from <a href="https://doi.org/10.1101/2022.08.17.22278897"><span class="citation" data-cites="betti2022pair">Betti, Farrell, and Heffernan (</span></a><a href="#ref-betti2022pair" role="doc-biblioref">2022</a>). Briefly, in pair formation models the infection is driven by the rate of <strong>partnership</strong> formation between individuals and transmission probabilities per sexual act within the partnership <a href="https://doi.org/10.1016/j.idm.2017.07.002"><span class="citation" data-cites="kretzschmar2017pair">Kretzschmar and Heijne (</span></a><a href="#ref-kretzschmar2017pair" role="doc-biblioref">2017</a>). In these models, <strong>single</strong> individuals (individuals that don’t form partnerships) don’t get infected nor infect others. Individuals within <strong>partnerships</strong> only get infected with a probability <span class="math inline">\(\phi\)</span> if the other individual within that partnership is infected already.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-diagram-model" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="article_files/figure-html/fig-diagram-model-1.png" class="img-fluid figure-img" width="6000"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;1: Diagram of the model. Bright red node <span class="math inline">\(P_{SI}\)</span> is the main driver of the infection as it represents a partnership between a Susceptible and an Infected individual. This partnership irradiates the infection towards <span class="math inline">\(P_{II}\)</span> if the susceptible becomes infected and the partnership continues. The partnership might also dissolve into the susceptible <span class="math inline">\(S\)</span> and the infected <span class="math inline">\(I\)</span> or might not result in an infection but a recovery in <span class="math inline">\(P_{SR}\)</span>.</figcaption><p></p>
+<p><img src="images/model_diagram.svg" class="img-fluid figure-img" style="width:100.0%"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;1: Diagram of the model. Bright red node <span class="math inline">\(P_{SI}\)</span> is the main driver of the infection as it represents a partnership between a Susceptible and an Infected individual. This partnership irradiates the infection towards <span class="math inline">\(P_{EI}\)</span> if the susceptible becomes infected and the partnership continues. The partnership might also dissolve into the susceptible <span class="math inline">\(S\)</span> and the infected <span class="math inline">\(I\)</span> or might not result in an infection but a recovery of the infected partner <span class="math inline">\(P_{SR}\)</span>.</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -135,51 +135,50 @@ div.csl-indent {
 <td><strong>Single</strong> susceptible individuals</td>
 </tr>
 <tr class="even">
+<td><span class="math inline">\(E\)</span></td>
+<td><strong>Single</strong> exposed individuals</td>
+</tr>
+<tr class="odd">
 <td><span class="math inline">\(I\)</span></td>
 <td><strong>Single</strong> infected individuals</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><span class="math inline">\(R\)</span></td>
 <td><strong>Single</strong> recovered individuals</td>
 </tr>
-<tr class="even">
-<td><span class="math inline">\(P_{SS}\)</span></td>
-<td><strong>Partnership</strong> of two susceptible individuals</td>
-</tr>
 <tr class="odd">
-<td><span class="math inline">\(P_{SI}\)</span></td>
-<td><strong>Partnership</strong> of one susceptible and one infected individuals</td>
+<td><span class="math inline">\(V\)</span></td>
+<td><strong>Single</strong> vaccinated individuals</td>
 </tr>
 <tr class="even">
-<td><span class="math inline">\(P_{SR}\)</span></td>
-<td><strong>Partnership</strong> of one susceptible and one recovered individuals</td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(P_{II}\)</span></td>
-<td><strong>Partnership</strong> of two infected individuals</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(P_{IR}\)</span></td>
-<td><strong>Partnership</strong> of one infected and one recovered individuals</td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(P_{RR}\)</span></td>
-<td><strong>Partnership</strong> of two recovered individuals</td>
+<td><span class="math inline">\(P_{kl}\)</span></td>
+<td><strong>Partnership</strong> of two individuals in which one partner belongs to category <span class="math inline">\(k\)</span> and the other to category <span class="math inline">\(l\)</span> (<em>e.g.</em> <span class="math inline">\(P_{SI}\)</span> represents a partnership between a susceptible <span class="math inline">\(S\)</span> and an infected <span class="math inline">\(I\)</span> individual).</td>
 </tr>
 </tbody>
 </table>
 </div>
 <p>The differential equations representation for the model is: <span id="eq-model"><span class="math display">\[
 \begin{align}
-\frac{dS}{dt}      &amp;=  - \rho S + \sigma (2 P_{SS} + P_{SI} + P_{SR})\\
-\frac{dI}{dt}      &amp;= - (\rho + \delta) I  + \sigma (2P_{II} + P_{SI} + P_{IR}) \\
-\frac{dR}{dt}      &amp;= - \rho R + \delta I + \sigma (2 P_{RR} + P_{SR} + P_{IR}) \\
-\frac{dP_{SS}}{dt} &amp;= \frac{1}{2}\rho \frac{S^2}{N} - \sigma P_{SS} \\
-\frac{dP_{SI}}{dt} &amp;= \rho (1 - h) \frac{SI}{N} - (\sigma + \phi h + \delta) P_{SI} \\
-\frac{dP_{II}}{dt} &amp;= \frac{1}{2}\rho \frac{I^2}{N} + \rho h \frac{SI}{N} + \phi h P_{SI} - (\sigma + 2\delta)P_{II} \\
-\frac{dP_{SR}}{dt} &amp;= \delta P_{SI} + \rho \frac{SR}{N} - \sigma P_{SR} \\
-\frac{dP_{IR}}{dt} &amp;= \rho \frac{IR}{N} + \delta P_{II} - (\sigma +  \delta) P_{IR} \\
-\frac{dP_{RR}}{dt} &amp;= \delta P_{IR} + \frac{1}{2}\rho \frac{R^2}{N} - \sigma P_{RR} \\
+\frac{dS}{dt}      &amp;= -(\rho + \nu) S + \sigma (2 P_{SS} + P_{SE} + P_{SI} + P_{SR} + P_{SV})\\
+\frac{dE}{dt}      &amp;= -(\rho + \theta) E + \sigma (P_{SE} + 2 P_{EE} + P_{EI} + P_{ER} + P_{EV})\\
+\frac{dI}{dt}      &amp;= -(\rho + \delta) I + \theta E + \sigma (P_{SI} + P_{EI} + 2P_{II} + P_{IR} + P_{IV})  \\
+\frac{dR}{dt}      &amp;= - \rho R + \delta I + \sigma (P_{SR} + P_{ER} + P_{IR} + 2 P_{RR} + P_{RV})  \\
+\frac{dV}{dt}      &amp;= - \rho V + \nu S  + \sigma (P_{SV} + P_{EV} + P_{IV} + P_{RV} + 2 P_{VV})  \\
+\frac{dP_{SS}}{dt} &amp;= \frac{1}{2}\rho \frac{S^2}{N} - (\sigma + 2 \nu) P_{SS} \\
+\frac{dP_{SE}}{dt} &amp;= \rho \frac{SE}{N} - (\sigma + \theta + \nu) P_{SE} \\
+\frac{dP_{SI}}{dt} &amp;= \rho (1 - h) \frac{SI}{N} + \theta P_{SE} - (\sigma + \phi h + \delta + \nu) P_{SI} \\
+\frac{dP_{SR}}{dt} &amp;= \rho \frac{SR}{N} + \delta P_{SI} - (\sigma  + \nu) P_{SR} \\
+\frac{dP_{SV}}{dt} &amp;= \rho \frac{SV}{N} + 2 \nu P_{SS} - (\sigma  + \nu) P_{SV} \\
+\frac{dP_{EE}}{dt} &amp;= \frac{1}{2} \rho \frac{E^2}{N} - (\sigma + 2 \theta) P_{EE} \\
+\frac{dP_{EI}}{dt} &amp;= \rho \frac{EI}{N} + \rho h \frac{SI}{N}  + \phi h P_{SI} + 2  \theta P_{EE} - (\sigma + \theta + \delta) P_{EI} \\
+\frac{dP_{ER}}{dt} &amp;= \rho \frac{ER}{N} + \delta P_{EI} - (\sigma + \theta) P_{ER} \\
+\frac{dP_{EV}}{dt} &amp;= \rho \frac{EV}{N} + \nu P_{SE} - (\sigma + \theta) P_{EV} \\
+\frac{dP_{II}}{dt} &amp;= \frac{1}{2} \rho \frac{I^2}{N} + \theta P_{EI} - (\sigma + 2 \delta) P_{II} \\
+\frac{dP_{IR}}{dt} &amp;= \rho \frac{IR}{N} + 2 \delta P_{II} + \theta P_{ER} - (\sigma + \delta) P_{IR} \\
+\frac{dP_{IV}}{dt} &amp;= \rho \frac{IV}{N} + \theta P_{EV} + \nu P_{SI} - (\sigma + \delta) P_{IV} \\
+\frac{dP_{RR}}{dt} &amp;= \frac{1}{2} \rho \frac{R^2}{N} + \delta P_{IR} - \sigma P_{RR} \\
+\frac{dP_{RV}}{dt} &amp;= \rho \frac{RV}{N} + \delta P_{IV} + \nu P_{SR} - \sigma P_{RV} \\
+\frac{dP_{VV}}{dt} &amp;= \frac{1}{2} \rho \frac{V^2}{N} + \nu P_{SV}  - \sigma  P_{VV} \\
 \end{align}
 \tag{1}\]</span></span></p>
 <p>With the parameters and their meanings are established in <a href="#tbl-parameters">Table&nbsp;2</a>. As the model was fitted using a Bayesian framework, <em>prior</em> distributions for the parameters are also specified in <a href="#tbl-parameters">Table&nbsp;2</a>.</p>
@@ -200,6 +199,14 @@ div.csl-indent {
 <tr class="even">
 <td><span class="math inline">\(\sigma\)</span></td>
 <td>Partnership dissolution rate</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\nu\)</span></td>
+<td>Vaccination rate</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\theta\)</span></td>
+<td>Incubation rate</td>
 </tr>
 <tr class="odd">
 <td><span class="math inline">\(\delta\)</span></td>
@@ -233,8 +240,8 @@ Betti, Matthew, Lauren Farrell, and Jane M Heffernan. 2022. <span>“A Pair Form
 <div id="ref-kretzschmar2017pair" class="csl-entry" role="doc-biblioentry">
 Kretzschmar, Mirjam, and Janneke CM Heijne. 2017. <span>“Pair Formation Models for Sexually Transmitted Infections: A Primer.”</span> <em>Infectious Disease Modelling</em> 2 (3): 368–78.
 </div>
-<div id="ref-owidmonkeypox" class="csl-entry" role="doc-biblioentry">
-Mathieu, Edouard, Fiona Spooner, Saloni Dattani, Hannah Ritchie, and Max Roser. 2022. <span>“Monkeypox.”</span> <em>Our World in Data</em>.
+<div id="ref-mpxdge" class="csl-entry" role="doc-biblioentry">
+Secretaría de Salud. 2022. <span>“Informes Semanales Con Información de Viruela Símica En México.”</span> <em>Secretaría de Salud</em>. <a href="https://www.gob.mx/salud/documentos/informes-semanales-para-la-vigilancia-epidemiologica-de-viruela-simica-en-mexico">https://www.gob.mx/salud/documentos/informes-semanales-para-la-vigilancia-epidemiologica-de-viruela-simica-en-mexico</a>.
 </div>
 </div></section></div></main>
 <!-- /main column -->
