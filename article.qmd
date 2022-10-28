@@ -1,5 +1,5 @@
 ---
-title: "Modelling a vaccination campaign against monkeypox in Mexico"
+title: "Modelling a vaccination campaign against monkeypox in Mexico City"
 author: "Rodrigo Zepeda-Tello"
 format: html
 bibliography: references.bib
@@ -167,21 +167,20 @@ $$
 \frac{dP_{SE}}{dt} &= \rho \frac{SE}{N} - (\sigma + \theta + \nu) P_{SE} \\
 \frac{dP_{SI}}{dt} &= \rho (1 - h) \frac{SI}{N} + \theta P_{SE} - (\sigma + \phi h + \delta + \nu) P_{SI} \\
 \frac{dP_{SR}}{dt} &= \rho \frac{SR}{N} + \delta P_{SI} - (\sigma  + \nu) P_{SR} \\
-\frac{dP_{SV}}{dt} &= \rho \frac{SV}{N} + 2 \nu P_{SS} - (\sigma  + \nu) P_{SV} \\
+\frac{dP_{SV}}{dt} &= \rho \frac{SV}{N} + \nu P_{SS} - (\sigma  + \nu) P_{SV} \\
 \frac{dP_{EE}}{dt} &= \frac{1}{2} \rho \frac{E^2}{N} - (\sigma + 2 \theta) P_{EE} \\
-\frac{dP_{EI}}{dt} &= \rho \frac{EI}{N} + \rho h \frac{SI}{N}  + \phi h P_{SI} + 2  \theta P_{EE} - (\sigma + \theta + \delta) P_{EI} \\
+\frac{dP_{EI}}{dt} &= \rho \frac{EI}{N} + \rho h \frac{SI}{N}  + \phi h P_{SI} + \theta P_{EE} - (\sigma + \theta + \delta) P_{EI} \\
 \frac{dP_{ER}}{dt} &= \rho \frac{ER}{N} + \delta P_{EI} - (\sigma + \theta) P_{ER} \\
 \frac{dP_{EV}}{dt} &= \rho \frac{EV}{N} + \nu P_{SE} - (\sigma + \theta) P_{EV} \\
 \frac{dP_{II}}{dt} &= \frac{1}{2} \rho \frac{I^2}{N} + \theta P_{EI} - (\sigma + 2 \delta) P_{II} \\
-\frac{dP_{IR}}{dt} &= \rho \frac{IR}{N} + 2 \delta P_{II} + \theta P_{ER} - (\sigma + \delta) P_{IR} \\
+\frac{dP_{IR}}{dt} &= \rho \frac{IR}{N} + \delta P_{II} + \theta P_{ER} - (\sigma + \delta) P_{IR} \\
 \frac{dP_{IV}}{dt} &= \rho \frac{IV}{N} + \theta P_{EV} + \nu P_{SI} - (\sigma + \delta) P_{IV} \\
 \frac{dP_{RR}}{dt} &= \frac{1}{2} \rho \frac{R^2}{N} + \delta P_{IR} - \sigma P_{RR} \\
 \frac{dP_{RV}}{dt} &= \rho \frac{RV}{N} + \delta P_{IV} + \nu P_{SR} - \sigma P_{RV} \\
 \frac{dP_{VV}}{dt} &= \frac{1}{2} \rho \frac{V^2}{N} + \nu P_{SV}  - \sigma  P_{VV} \\
 \end{align}
 $$ {#eq-model}
-
-With the parameters and their meanings are established in @tbl-parameters. As the model was fitted using a Bayesian framework, _prior_ distributions for the parameters are also specified in @tbl-parameters. 
+where $N = S + E + I + R + V + \sum_{i,j\in\{S,E,I,R,V\}} P_{ij}$ represents the total number of individuals in the population. The parameters and their definitions are established in @tbl-parameters. 
 
 | Parameter | Definition                              |
 |-----------|-----------------------------------------|
@@ -195,6 +194,17 @@ With the parameters and their meanings are established in @tbl-parameters. As th
 
 : Parameters used in the model @eq-model. {#tbl-parameters}
 
+The total number of infected individuals at any time $t$ can be estimated as:
+
+$$
+T = I + P_{SI} + P_{EI} + 2\cdot P_{II} + P_{IR} + P_{IV}.
+$$
+and the cummulative number of 
+
+
+### Model Fitting
+
+We used the weekly incident cases of [@mpxdge] for Mexico City for each week $w$ and fitted them against the modelled incident cases for the same week. 
 
 
 ## Code availability

@@ -159,7 +159,7 @@ div.csl-indent {
 </div>
 <p>The differential equations representation for the model is: <span id="eq-model"><span class="math display">\[
 \begin{align}
-\frac{dS}{dt}      &amp;= -(\rho + \nu) S + \sigma (2 P_{SS} + P_{SE} + P_{SI} + P_{SR} + P_{SV})\\
+\frac{dS}{dt}      &amp;= -(\rho + \nu) S + \sigma (2 P_{SS} + P_{SE} + P_{SI} + P_{SR} + P_{SV})\label{psi}\\
 \frac{dE}{dt}      &amp;= -(\rho + \theta) E + \sigma (P_{SE} + 2 P_{EE} + P_{EI} + P_{ER} + P_{EV})\\
 \frac{dI}{dt}      &amp;= -(\rho + \delta) I + \theta E + \sigma (P_{SI} + P_{EI} + 2P_{II} + P_{IR} + P_{IV})  \\
 \frac{dR}{dt}      &amp;= - \rho R + \delta I + \sigma (P_{SR} + P_{ER} + P_{IR} + 2 P_{RR} + P_{RV})  \\
@@ -168,13 +168,13 @@ div.csl-indent {
 \frac{dP_{SE}}{dt} &amp;= \rho \frac{SE}{N} - (\sigma + \theta + \nu) P_{SE} \\
 \frac{dP_{SI}}{dt} &amp;= \rho (1 - h) \frac{SI}{N} + \theta P_{SE} - (\sigma + \phi h + \delta + \nu) P_{SI} \\
 \frac{dP_{SR}}{dt} &amp;= \rho \frac{SR}{N} + \delta P_{SI} - (\sigma  + \nu) P_{SR} \\
-\frac{dP_{SV}}{dt} &amp;= \rho \frac{SV}{N} + 2 \nu P_{SS} - (\sigma  + \nu) P_{SV} \\
+\frac{dP_{SV}}{dt} &amp;= \rho \frac{SV}{N} + \nu P_{SS} - (\sigma  + \nu) P_{SV} \\
 \frac{dP_{EE}}{dt} &amp;= \frac{1}{2} \rho \frac{E^2}{N} - (\sigma + 2 \theta) P_{EE} \\
-\frac{dP_{EI}}{dt} &amp;= \rho \frac{EI}{N} + \rho h \frac{SI}{N}  + \phi h P_{SI} + 2  \theta P_{EE} - (\sigma + \theta + \delta) P_{EI} \\
+\frac{dP_{EI}}{dt} &amp;= \rho \frac{EI}{N} + \rho h \frac{SI}{N}  + \phi h P_{SI} + \theta P_{EE} - (\sigma + \theta + \delta) P_{EI} \\
 \frac{dP_{ER}}{dt} &amp;= \rho \frac{ER}{N} + \delta P_{EI} - (\sigma + \theta) P_{ER} \\
 \frac{dP_{EV}}{dt} &amp;= \rho \frac{EV}{N} + \nu P_{SE} - (\sigma + \theta) P_{EV} \\
 \frac{dP_{II}}{dt} &amp;= \frac{1}{2} \rho \frac{I^2}{N} + \theta P_{EI} - (\sigma + 2 \delta) P_{II} \\
-\frac{dP_{IR}}{dt} &amp;= \rho \frac{IR}{N} + 2 \delta P_{II} + \theta P_{ER} - (\sigma + \delta) P_{IR} \\
+\frac{dP_{IR}}{dt} &amp;= \rho \frac{IR}{N} + \delta P_{II} + \theta P_{ER} - (\sigma + \delta) P_{IR} \\
 \frac{dP_{IV}}{dt} &amp;= \rho \frac{IV}{N} + \theta P_{EV} + \nu P_{SI} - (\sigma + \delta) P_{IV} \\
 \frac{dP_{RR}}{dt} &amp;= \frac{1}{2} \rho \frac{R^2}{N} + \delta P_{IR} - \sigma P_{RR} \\
 \frac{dP_{RV}}{dt} &amp;= \rho \frac{RV}{N} + \delta P_{IV} + \nu P_{SR} - \sigma P_{RV} \\
