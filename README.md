@@ -8,7 +8,7 @@ Implements a pair formation model adapted from [Betti _et al_](https://doi.org/1
 
 ## Data
 
-Data is downloaded from the weekly reports by the Epidemiology Directorate (Dirección General de Epidemiología). It is parsed in `Python` and is available as `MPX_reporte_dge.csv`.
+Data is downloaded from the weekly reports by the Epidemiology Directorate (Dirección General de Epidemiología). It is parsed in `Python` and is available as `data/MPX_DGE.csv`.
 
 ![Casos acumulados de viruela símica en México por entidad](images/Monkeypox_Mx_DGE.png)
 

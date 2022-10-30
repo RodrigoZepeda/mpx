@@ -1,8 +1,20 @@
 ---
-title: "Modelling a vaccination campaign against monkeypox in Mexico City"
-author: "Rodrigo Zepeda-Tello"
+title: "Modeling a vaccination campaign against monkeypox in Mexico City"
+author: 
+  - name: Rodrigo Zepeda-Tello
+    orcid: 0000-0003-4471-5270
+    email: rodrigo.zepeda@imss.gob.mx
+    affiliations:
+      - name: Instituto Mexicano del Seguro Social
+  - name: Mayra Núñez-López 
+    orcid: 0000-0002-2851-0729
+    affiliations:
+      - name: Instituto Tecnológico Autónomo de México
+  - name: Génesis Luigi-Bravo
+    orcid: 0000-0002-2079-5993
 format: html
 bibliography: references.bib
+csl: vancouver.csl
 execute: 
   fig-dpi: 750
   echo: false
@@ -15,24 +27,280 @@ execute:
 #| message: false
 #| warning: false
 remake_plots <- FALSE
-pacman::p_load(tidyverse, ggdag, latex2exp, ggtext)
+pacman::p_load(tidyverse, ggdag, latex2exp, ggtext, lubridate, knitr, glue)
 ```
 
 ## Introduction
 
-## Data
+Since May 2022 the global outbreak of Monkeypox (MPX) has been reported in over 118 countries with most cases occurring among Men who have Sex with Men (MSM) [@philpott2022epidemiologic; @hadeler2012pair; @kraemer2022tracking; @liu2022monkeypox]. In Mexico, 98% of cases have been reported in men, most of these are aged 20-50 [@mpxdge]. To date 2,654 cases have been confirmed with most of them (60%) being reported in Mexico City, where the only laboratory in the country capable of testing for MPX (before October 6th) is headquartered [@indre]. As the case count continues rising, activists have demanded more testing and access to vaccines. To date the country has not implemented a vaccination campaign. 
 
-### Monkeypox cases
+The purpose of this document is to model the prevention opportunity of a vaccination campaign against MPX in Mexico City. 
+
+## Methods
+
+### Data
+
+#### Monkeypox cases
 
 Weekly incident cases were obtained from the reports of the General Directorate of Epidemiology of Mexico [@mpxdge].
 
-### Parameter information
+#### Parameter information
 
 
 
-## Model
+### Mathematical model
 
-Our model is a pair-formation Susceptible-Exposed-Infected-Recovered (SEIR) system of differential equations adapted from [@betti2022pair](https://doi.org/10.1101/2022.08.17.22278897). Briefly, in pair formation models the infection is driven by the rate of **partnership** formation between individuals and transmission probabilities per sexual act within the partnership [@kretzschmar2017pair](https://doi.org/10.1016/j.idm.2017.07.002). In these models, **single** individuals (individuals that don't form partnerships) don't get infected nor infect others. Individuals within **partnerships** only get infected with a probability $\phi$ if the other individual within that partnership is infected already. 
+```{r}
+#| label: fig-diagram-transmission
+#| message: false
+#| warning: false
+#| fig-height: 8.5
+#| fig-width: 20
+#| echo: false
+#| out-width: 100%
+#| fig-align: center
+#| fig-cap: "Diagram of the transmission mechanics of the model. There are five different categories of individuals: Susceptible $S$, Exposed $E$, Infected $I$, Recovered $R$, and Vaccinated $V$. We assume vaccinated and recovered individuals become immune for the remaining of the modeled period. "
+knitr::include_graphics("images/diagram.svg")
+```
+
+Our model is a pair-formation Susceptible-Exposed-Infected-Recovered (SEIR) system of differential equations adapted from [@betti2022pair]. Briefly, in pair formation models the infection is driven by the rate of sexual **partnership** formation between individuals and transmission probabilities per sexual encounter within the partnership [@kretzschmar2017pair; @hadeler2012pair; @hadeler1988models]. In these models, **single** individuals (individuals that don't form partnerships) don't get infected nor infect others. A sexual partnership starts when two individuals have their first sexual encounter (rate $\rho$ of partnership formation) and will continue having sexual encounters (at a rate $\phi$) until the partnership ends (rate $\sigma$ of partnership dissolution). After a partnership dissolves, individuals become single again. 
+
+The disease is transmitted when two individuals have a sexual encounter with one of them being susceptible $S$ and the other being infected $I$. Once contagion takes place the susceptible individual becomes exposed (incubating) $E$. An exposed individual eventually evolves to an infectious individual $I$ at a rate $\theta$. Infectious individuals recover at a rate $\delta$. Recovered individuals are represented by the letter $R$. Susceptible individuals can also become vaccinated at a rate $\nu$. We assume that vaccinated $V$ and recovered $R$ individuals cannot be reinfected. 
+
+The differential equations representation for the model and the compartmental diagram can be found in [Appendix -@sec-diffeq]. 
+
+
+
+
+#### Model Fitting
+
+We used the weekly incident cases $i_w$ of [@mpxdge] for Mexico City for each week $w$ and fitted them against the modeled incident cases for the same week. We assumed that only a fraction $p_{\text{detect}}$ of all the cases corresponded to the observed cases, $i_w$. And that the observed cases follow a Negative Binomial distribution parametrized by its mean $p_{\text{detect}}\cdot I(w)$ and precision $\tau$:
+
+$$
+i_w \sim \textrm{NegativeBinomial}\big(p_{\text{detect}}\cdot I(w), \tau\big).
+$$
+with
+
+$$
+\tau \sim \textrm{InverseGamma}(2,3), \quad \text{and}\quad p_{\text{detect}} \sim \textrm{Beta}(2,1).
+$$
+
+@tbl-parameters contains information regarding the priors for all parameters. Trajectories for the model were simulated via the `DifferentialEquations` package using the `Rodas4` algorithm [@rackauckas2017differentialequations]. Parameter fitting was done via No-U-Turn-Sampling (NUTS) with the `Turing` library in `Julia` version 1.8.2 [@ge2018turing; @bezanson2012julia; @hoffman2014no]. We used the $\hat{R}$ and Gelman-Rubin's test to assess convergence [@gelman1992inference]. All graphics were done in `R` version 4.2.1 (2022-06-23) using `ggplot2` [@ggplot2; @R]. 
+
+#### Estimation of the basic reproductive number, $\mathcal{R}_0$
+
+TBD
+
+#### Scenario simulation
+
+We used the simulated posterior distribution of the model's parameters to construct the baseline scenario with no vaccination $\nu = 0$. We then repeated the simulations under different vaccination rate scenarios $\{\nu_i\}$. 
+
+### Code and data availability
+
+Both the code for the model and the data can be found in our [Github repository](https://github.com/RodrigoZepeda/mpx)
+
+## Results
+
+```{r}
+mparam  <- read_csv("data/model_fitted_params.csv", show_col_types = F)
+mpx     <- read_csv("data/MPX_DGE.csv", show_col_types = F)
+mrun    <- read_csv("data/model_summary.csv", show_col_types = F)
+mqlow   <- read_csv("data/model_summary_qlow.csv", show_col_types = F)
+mqhigh  <- read_csv("data/model_summary_qhigh.csv", show_col_types = F)
+
+mx <- mpx |>
+    filter(Estado == "Ciudad de México") |>
+    mutate(Fecha = min(Fecha_reporte) + weeks(0:(n() - 1)))
+
+mrun <- mrun |> 
+    mutate(type = "point") |>
+    bind_rows(
+      mqlow |> mutate(type = "qlow")
+    ) |>
+    bind_rows(
+      mqhigh |> mutate(type = "qhigh")
+    ) 
+    
+columnames <- c("t", "S","E","I","R","V","PSS","PSE","PSI","PSR","PSV",
+                      "PEE","PEI","PER","PEV","PII","PIR","PIV","PRR","PRV","PVV",
+                      "C","Type")
+colnames(mrun) <- columnames
+  
+mrun <- mrun |> 
+    group_by(Type) |>
+    arrange(t) |>
+    mutate(Incidence = C - lag(C, default = 0)) |>
+    ungroup() |>
+    mutate(Fecha = min(mx$Fecha_reporte) + days(round(7*t)))
+  
+mrun <- mrun |>
+    pivot_wider(id_cols = c(t,Fecha), names_from = Type, values_from = c(S:C,Incidence)) 
+
+high <-  list.files("simulations", "model_sims_high.*.csv",
+                   full.names = TRUE) |>
+  read_csv(id = "nu", show_col_types = F) |>
+  mutate(nu = str_remove_all(nu, ".*/model_sims_high|.csv")) |>
+  mutate(nu = as.numeric(nu)) |>
+  mutate(type = "high")
+
+low  <-  list.files("simulations", "model_sims_low.*.csv",
+                   full.names = TRUE) |>
+  read_csv(id = "nu", show_col_types = F) |>
+  mutate(nu = str_remove_all(nu, ".*/model_sims_low|.csv")) |>
+  mutate(nu = as.numeric(nu)) |>
+  mutate(type = "low")
+
+point <-  list.files("simulations", "model_sims_low.*.csv",
+                   full.names = TRUE) |>
+  read_csv(id = "nu", show_col_types = F) |>
+  mutate(nu = str_remove_all(nu, ".*/model_sims_low|.csv")) |>
+  mutate(nu = as.numeric(nu)) |>
+  mutate(type = "point")
+
+point <- point %>%
+  bind_rows(high) %>%
+  bind_rows(low)
+
+colnames(point) <- c("nu", columnames)
+
+point <- point |> 
+    group_by(Type) |>
+    arrange(t) |>
+    mutate(Incidence = C - lag(C, default = 0)) |>
+    ungroup() |>
+    mutate(Fecha = min(mx$Fecha_reporte) + days(round(7*t)))
+  
+point <- point |>
+    pivot_wider(id_cols = c(nu,t,Fecha), names_from = Type, values_from = c(S:C,Incidence)) 
+
+point <- point |>
+  mutate(nufactor = factor(round(nu,3), ordered = TRUE)) |>
+  mutate(nufactor = fct_recode(nufactor, "No vaccination" = "0"))
+
+```
+
+By `r format(today(), "%B %d %Y")` a total of `r sum(mx$Incidencia, na.rm = T)` cases have been reported for Mexico City. @fig-model-incidence shows the reported number of incident cases as well as the inferred number of total incident cases in the city. The average probability of detection was `r scales::percent(mean(mparam$p_detect), 0.01)` with 95% credible interval `r paste0("[", scales::percent(quantile(mparam$p_detect, probs = 0.025), 0.01), ", ", scales::percent(quantile(mparam$p_detect, probs = 0.975), 0.01),"]")`. Under the current scenario the epidemic is expected to extinguish by `r format(max(mrun$Fecha), "%B %d %Y")` with a total of `r paste0(round(max(mrun$C_point))," [",round(max(mrun$C_qlow)), ",", round(max(mrun$C_qhigh)),"]")` cumulative cases. 
+
+```{r}
+#| label: fig-model-incidence
+#| message: false
+#| warning: false
+#| fig-height: 8.5
+#| fig-width: 20
+#| echo: false
+#| out-width: 100%
+#| fig-align: center
+#| fig-cap: "Expected and observed number of MPX cases in Mexico City"
+
+file_model <- "images/incidence.svg"
+if (!file.exists(file_model) | remake_plots){
+  
+  inc_plot <- ggplot() +
+    geom_ribbon(aes(x = Fecha, ymin = C_qlow, ymax = C_qhigh,
+                    fill = "Model"),
+                    alpha = 0.5, data = mrun) +
+    geom_col(aes(x = Fecha, y = Casos, 
+                  fill = "Observed"), size = 4, data = mx) +
+    geom_text(aes(x = Fecha, y = Casos, label = Casos,
+                  color = "Observed"), size = 4, data = mx, vjust = 0) +
+    geom_line(aes(x = Fecha, y = C_point, color = "Model"), data = mrun,
+              linetype = "dotted") +
+    geom_line(aes(x = Fecha, y = C_qlow, color = "Model"), data = mrun,
+              linetype = "dotted") +
+    geom_line(aes(x = Fecha, y = C_qhigh, color = "Model"), data = mrun,
+              linetype = "dotted") +
+    theme_classic() +
+    labs(
+      y = "Cases",
+      x = NULL,
+      title = "Cumulative number of monkeypox cases in Mexico City",
+      caption = "Cases reported by the General Directorate of Epidemiology | Bayesian pair-formation model"
+    ) +
+    scale_color_manual("Data", 
+                       values = c("Model" = "#7e9bed","Observed" = "#d74f7c")) +
+    scale_fill_manual("Data", 
+                       values = c("Model" = "#7e9bed","Observed" = "#d74f7c")) +
+    scale_y_continuous(labels = scales::comma) +
+    coord_cartesian(xlim = c(min(mx$Fecha_reporte), max(mx$Fecha_reporte))) +
+    scale_x_date(date_breaks = "1 week", date_labels = "%b-%d") +
+    theme(
+      plot.caption =  element_text(face = "italic", hjust = 1.0),
+      plot.title = element_text(hjust = 0.5, size = 20)
+    )
+  ggsave(file_model, inc_plot, width = 10, height = 6)
+}
+
+knitr::include_graphics(file_model)  
+```
+
+```{r}
+maxvac <- point %>%
+  filter(Fecha == max(Fecha) & nu == max(nu))
+```
+
+@fig-model-vaccination-rates shows the different outcomes of cumulative cases under different vaccination rates $\nu$. With vaccination, the overall cases would reduce up to `r paste0(round(max(maxvac$C_point))," [",round(max(maxvac$C_low)), ",", round(max(maxvac$C_high)),"]")`. 
+
+```{r}
+#| label: fig-model-vaccination-rates
+#| message: false
+#| warning: false
+#| fig-height: 8.5
+#| fig-width: 20
+#| echo: false
+#| out-width: 100%
+#| fig-align: center
+#| fig-cap: "Expected outcomes according to different vaccination rates $\\nu$ in Mexico City"
+
+file_model <- "images/vaccination_rates.svg"
+if (!file.exists(file_model) | remake_plots){
+  
+  pcolor <- colorRampPalette(c("#7e9bed","#d74f7c"))
+  vacplot <- ggplot(point) +
+    geom_line(aes(x = Fecha, y = C_point, color = nufactor)) +
+    geom_text(aes(x = Fecha, y = C_point,
+                  label = glue("{round(C_point)} [{round(C_low)}, {round(C_high)}]"),
+                  color = nufactor),  
+              hjust = 0, size = 1.5,
+              data = point %>% filter(Fecha == max(Fecha))) +
+    theme_classic() +
+    labs(
+      y = "Cases",
+      x = NULL,
+      title = "Cumulative number of monkeypox cases in Mexico City under different vaccination rates",
+      caption = "Cases reported by the General Directorate of Epidemiology | Bayesian pair-formation model"
+    ) +
+    scale_y_continuous(labels = scales::comma) +
+    scale_x_date(date_breaks = "1 week", date_labels = "%b-%d") +
+    theme(
+      plot.caption =  element_text(face = "italic", hjust = 1.0),
+      plot.title = element_text(hjust = 0.5, size = 12),
+      legend.position = "bottom"
+    )  +
+    coord_cartesian(xlim = c(min(point$Fecha), max(point$Fecha) + weeks(1))) +
+    scale_color_manual("Vaccination rate", values = pcolor(length(unique(point$nu)))) +
+    guides(col = guide_legend(nrow = 2))
+
+  ggsave(file_model, vacplot, width = 8, height = 6)
+}
+
+knitr::include_graphics(file_model)  
+```
+
+## Discussion
+
+Even under a small vaccination rate, the model shows a potential reduction in overall monkeypox cases in Mexico City. 
+
+
+## References 
+
+::: {#refs}
+:::
+
+
+
+## Model {#sec-diffeq .appendix} 
+
+The compartmental diagram of the model is the following: 
 
 ```{r}
 #| label: fig-diagram-model
@@ -142,7 +410,7 @@ if (!file.exists(file_model) | remake_plots){
 knitr::include_graphics(file_model)
 ```
 
-The variables of the model are specified in @tbl-variables.
+Where the variables are specified in @tbl-variables.
 
 | Variable    | Definition |
 |-------------|---------------------------------------|
@@ -152,10 +420,14 @@ The variables of the model are specified in @tbl-variables.
 | $R$         | **Single** recovered individuals      |
 | $V$         | **Single** vaccinated individuals     |
 | $P_{kl}$    | **Partnership** of two individuals in which one partner belongs to category $k$ and the other to category $l$ (_e.g._ $P_{SI}$ represents a partnership between a susceptible $S$ and an infected $I$ individual).  |
+| $C$         | **Overall** cummulative infective cases. Total numner of infective cases independent of partnership status over all of the pandemic  |
+| $T$         | **Overall** total infective cases. Total number of infective cases at a moment in time. Independent of partnership status.  |
+| $\textrm{Inc}$ | **Overall** incident cases. New cases independent of  partnership status. |
 
 : Variables used in the model @eq-model. {#tbl-variables}
 
-The differential equations representation for the model is:
+The differential equation representation is given by:
+
 $$
 \begin{align}
 \frac{dS}{dt}      &= -(\rho + \nu) S + \sigma (2 P_{SS} + P_{SE} + P_{SI} + P_{SR} + P_{SV})\\
@@ -180,39 +452,79 @@ $$
 \frac{dP_{VV}}{dt} &= \frac{1}{2} \rho \frac{V^2}{N} + \nu P_{SV}  - \sigma  P_{VV} \\
 \end{align}
 $$ {#eq-model}
-where $N = S + E + I + R + V + \sum_{i,j\in\{S,E,I,R,V\}} P_{ij}$ represents the total number of individuals in the population. The parameters and their definitions are established in @tbl-parameters. 
+where $N = S + E + I + R + V + \sum_{i,j\in\{S,E,I,R,V\}} P_{ij}$ represents the total number of individuals (MSM) in the population. Initial conditions for the model are given by:
+
+$$
+\begin{align}
+S(0) &= (N - \tilde{i}_w)\cdot p_{s},\\
+I(0) &= \tilde{i}_w \cdot p_i,\\
+P_{SS}(0) &= (N - \tilde{i}_w)\cdot (1 - p_{s}) \\
+P_{SI}(0) &= (N - \tilde{i}_w)\cdot (1 - p_{i}) 
+\end{align}
+$$
+with $\tilde{i_w} = i_w / p_{\text{detect}}$. The rest of the initial values are equal to zero. 
+
+
+The parameters and their definitions are established in @tbl-parameters. 
 
 | Parameter | Definition                              |
 |-----------|-----------------------------------------|
-| $\rho$    | Partnership formation rate              |
-| $\sigma$  | Partnership dissolution rate            |
-| $\nu$     | Vaccination rate                        |
-| $\theta$  | Incubation rate                         |
-| $\delta$  | Infection recovery rate                 |
-| $h$       | Probability of transmission per contact |
-| $\phi$    | Contact rate per partnership            |
+| $\rho$    | Partnership formation rate.              |
+| $\sigma$  | Partnership dissolution rate.            |
+| $\nu$     | Vaccination rate.                        |
+| $\theta$  | Incubation rate.                         |
+| $\delta$  | Infection recovery rate.                 |
+| $h$       | Probability of transmission per contact. |
+| $\phi$    | Contact rate per partnership.            |
+| $\varphi$ | Precision of the observed incidence cases.  |
+| $p_{detect}$ | Probability of being a detected case.  |
+| $N$       | The total of MSM in Mexico City           |
+| $p_{s}$   | The proportion of **single** susceptible cases at the beginning of the epidemic. |
+| $p_{i}$   | The proportion of **single** infected cases at the beginning of the epidemic.    |
 
 : Parameters used in the model @eq-model. {#tbl-parameters}
 
 The total number of infected individuals at any time $t$ can be estimated as:
 
 $$
-T = I + P_{SI} + P_{EI} + 2\cdot P_{II} + P_{IR} + P_{IV}.
+T = I + P_{SI} + P_{EI} + 2\cdot P_{II} + P_{IR} + P_{IV},
+$${#eq-total}
+and the cumulative number of infected individuals (cumulative cases) is given by the solution to the differential equation:
+
 $$
-and the cummulative number of 
+\frac{dC}{dt} = \theta \cdot (E + P_{SE} + P_{EE} + P_{EI} + P_{ER} + P_{EV}).
+$${#eq-cumcases}
+
+The number of incident cases at week $w$, $\textrm{Inc}(w)$ is given by the difference in cumulative cases [@eq-cumcases]:
+
+$$
+\textrm{Inc}(w) = C(w+1) - C(w).
+$$
 
 
-### Model Fitting
+## Parameter distributions {#sec-diffeq .appendix} 
 
-We used the weekly incident cases of [@mpxdge] for Mexico City for each week $w$ and fitted them against the modelled incident cases for the same week. 
-
-
-## Code availability
-
-Both the code and the data can be found in our [Github repository](https://github.com/rodrigoZepeda/mpx)
-
-
-
-
-
-## References
+```{r}
+file_model <- "images/params_dist.svg"
+if (!file.exists(file_model) | remake_plots){
+  modelparams <- mparam |>
+    select(iteration, chain, ρ:φ) |>
+    pivot_longer(cols = ρ:φ, names_to = "Parameter") |>
+    ggplot() +
+    geom_density(aes(x = value, fill = Parameter)) +
+    facet_wrap(~Parameter, scale = "free") +
+    theme_minimal() +
+    labs(
+      x = "",
+      y = "Density",
+      title = "Inferred parameter distribution"
+    ) +
+    theme(legend.position = "none",
+          plot.title = element_text(hjust = 0.5)) +
+    scale_fill_manual("",
+                       values = c("#003f5c","#0e4c70","#1e5984","#2e6699","#4074ae",
+"#5381c3","#688ed8","#7e9bed","#575e83","#45485c"))
+  ggsave("images/parameters.svg", modelparams, width = 8, height = 4)
+}
+knitr::include_graphics("images/parameters.svg")
+```

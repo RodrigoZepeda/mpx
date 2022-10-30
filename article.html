@@ -7,8 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Rodrigo Zepeda-Tello">
+<meta name="author" content="Mayra Núñez-López">
+<meta name="author" content="Génesis Luigi-Bravo">
 
-<title>Modelling a vaccination campaign against monkeypox in Mexico</title>
+<title>Modeling a vaccination campaign against monkeypox in Mexico City</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -66,20 +68,38 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Modelling a vaccination campaign against monkeypox in Mexico</h1>
+<h1 class="title">Modeling a vaccination campaign against monkeypox in Mexico City</h1>
 </div>
 
 
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Authors</div>
+  <div class="quarto-title-meta-heading">Affiliations</div>
+  
+    <div class="quarto-title-meta-contents">
+    Rodrigo Zepeda-Tello <a href="https://orcid.org/0000-0003-4471-5270" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Instituto Mexicano del Seguro Social
+          </p>
+      </div>
+      <div class="quarto-title-meta-contents">
+    Mayra Núñez-López <a href="https://orcid.org/0000-0002-2851-0729" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Instituto Tecnológico Autónomo de México
+          </p>
+      </div>
+      <div class="quarto-title-meta-contents">
+    Génesis Luigi-Bravo <a href="https://orcid.org/0000-0002-2079-5993" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
+  </div>
+    </div>
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Rodrigo Zepeda-Tello </p>
-          </div>
-  </div>
-    
+      
     
   </div>
   
@@ -91,31 +111,117 @@ div.csl-indent {
 </div>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Since May 2022 the global outbreak of Monkeypox (MPX) has been reported in over 118 countries with most cases occurring among Men who have Sex with Men (MSM) <span class="citation" data-cites="philpott2022epidemiologic hadeler2012pair kraemer2022tracking liu2022monkeypox">(<a href="#ref-philpott2022epidemiologic" role="doc-biblioref">1</a>–<a href="#ref-liu2022monkeypox" role="doc-biblioref">4</a>)</span>. In Mexico, 98% of cases have been reported in men, most of these are aged 20-50 <span class="citation" data-cites="mpxdge">(<a href="#ref-mpxdge" role="doc-biblioref">5</a>)</span>. To date 2,654 cases have been confirmed with most of them (60%) being reported in Mexico City, where the only laboratory in the country capable of testing for MPX (before October 6th) is headquartered <span class="citation" data-cites="indre">(<a href="#ref-indre" role="doc-biblioref">6</a>)</span>. As the case count continues rising, activists have demanded more testing and access to vaccines. To date the country has not implemented a vaccination campaign.</p>
+<p>The purpose of this document is to model the prevention opportunity of a vaccination campaign against MPX in Mexico City.</p>
 </section>
-<section id="data" class="level2">
-<h2 class="anchored" data-anchor-id="data">Data</h2>
-<section id="monkeypox-cases" class="level3">
-<h3 class="anchored" data-anchor-id="monkeypox-cases">Monkeypox cases</h3>
-<p>Weekly incident cases were obtained from the reports of the General Directorate of Epidemiology of Mexico <span class="citation" data-cites="mpxdge">(<a href="#ref-mpxdge" role="doc-biblioref">Secretaría de Salud 2022</a>)</span>.</p>
+<section id="methods" class="level2">
+<h2 class="anchored" data-anchor-id="methods">Methods</h2>
+<section id="data" class="level3">
+<h3 class="anchored" data-anchor-id="data">Data</h3>
+<section id="monkeypox-cases" class="level4">
+<h4 class="anchored" data-anchor-id="monkeypox-cases">Monkeypox cases</h4>
+<p>Weekly incident cases were obtained from the reports of the General Directorate of Epidemiology of Mexico <span class="citation" data-cites="mpxdge">(<a href="#ref-mpxdge" role="doc-biblioref">5</a>)</span>.</p>
 </section>
-<section id="parameter-information" class="level3">
-<h3 class="anchored" data-anchor-id="parameter-information">Parameter information</h3>
+<section id="parameter-information" class="level4">
+<h4 class="anchored" data-anchor-id="parameter-information">Parameter information</h4>
 </section>
 </section>
-<section id="model" class="level2">
-<h2 class="anchored" data-anchor-id="model">Model</h2>
-<p>Our model is a pair-formation Susceptible-Exposed-Infected-Recovered (SEIR) system of differential equations adapted from <a href="https://doi.org/10.1101/2022.08.17.22278897"><span class="citation" data-cites="betti2022pair">Betti, Farrell, and Heffernan (</span></a><a href="#ref-betti2022pair" role="doc-biblioref">2022</a>). Briefly, in pair formation models the infection is driven by the rate of <strong>partnership</strong> formation between individuals and transmission probabilities per sexual act within the partnership <a href="https://doi.org/10.1016/j.idm.2017.07.002"><span class="citation" data-cites="kretzschmar2017pair">Kretzschmar and Heijne (</span></a><a href="#ref-kretzschmar2017pair" role="doc-biblioref">2017</a>). In these models, <strong>single</strong> individuals (individuals that don’t form partnerships) don’t get infected nor infect others. Individuals within <strong>partnerships</strong> only get infected with a probability <span class="math inline">\(\phi\)</span> if the other individual within that partnership is infected already.</p>
+<section id="mathematical-model" class="level3">
+<h3 class="anchored" data-anchor-id="mathematical-model">Mathematical model</h3>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-diagram-transmission" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="images/diagram.svg" class="img-fluid figure-img" style="width:100.0%"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;1: Diagram of the transmission mechanics of the model. There are five different categories of individuals: Susceptible <span class="math inline">\(S\)</span>, Exposed <span class="math inline">\(E\)</span>, Infected <span class="math inline">\(I\)</span>, Recovered <span class="math inline">\(R\)</span>, and Vaccinated <span class="math inline">\(V\)</span>. We assume vaccinated and recovered individuals become immune for the remaining of the modeled period.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Our model is a pair-formation Susceptible-Exposed-Infected-Recovered (SEIR) system of differential equations adapted from <span class="citation" data-cites="betti2022pair">(<a href="#ref-betti2022pair" role="doc-biblioref">7</a>)</span>. Briefly, in pair formation models the infection is driven by the rate of sexual <strong>partnership</strong> formation between individuals and transmission probabilities per sexual encounter within the partnership <span class="citation" data-cites="kretzschmar2017pair hadeler2012pair hadeler1988models">(<a href="#ref-hadeler2012pair" role="doc-biblioref">2</a>,<a href="#ref-kretzschmar2017pair" role="doc-biblioref">8</a>,<a href="#ref-hadeler1988models" role="doc-biblioref">9</a>)</span>. In these models, <strong>single</strong> individuals (individuals that don’t form partnerships) don’t get infected nor infect others. A sexual partnership starts when two individuals have their first sexual encounter (rate <span class="math inline">\(\rho\)</span> of partnership formation) and will continue having sexual encounters (at a rate <span class="math inline">\(\phi\)</span>) until the partnership ends (rate <span class="math inline">\(\sigma\)</span> of partnership dissolution). After a partnership dissolves, individuals become single again.</p>
+<p>The disease is transmitted when two individuals have a sexual encounter with one of them being susceptible <span class="math inline">\(S\)</span> and the other being infected <span class="math inline">\(I\)</span>. Once contagion takes place the susceptible individual becomes exposed (incubating) <span class="math inline">\(E\)</span>. An exposed individual eventually evolves to an infectious individual <span class="math inline">\(I\)</span> at a rate <span class="math inline">\(\theta\)</span>. Infectious individuals recover at a rate <span class="math inline">\(\delta\)</span>. Recovered individuals are represented by the letter <span class="math inline">\(R\)</span>. Susceptible individuals can also become vaccinated at a rate <span class="math inline">\(\nu\)</span>. We assume that vaccinated <span class="math inline">\(V\)</span> and recovered <span class="math inline">\(R\)</span> individuals cannot be reinfected.</p>
+<p>The differential equations representation for the model and the compartmental diagram can be found in <a href="#sec-diffeq">Appendix&nbsp;7</a>.</p>
+<section id="model-fitting" class="level4">
+<h4 class="anchored" data-anchor-id="model-fitting">Model Fitting</h4>
+<p>We used the weekly incident cases <span class="math inline">\(i_w\)</span> of <span class="citation" data-cites="mpxdge">(<a href="#ref-mpxdge" role="doc-biblioref">5</a>)</span> for Mexico City for each week <span class="math inline">\(w\)</span> and fitted them against the modeled incident cases for the same week. We assumed that only a fraction <span class="math inline">\(p_{\text{detect}}\)</span> of all the cases corresponded to the observed cases, <span class="math inline">\(i_w\)</span>. And that the observed cases follow a Negative Binomial distribution parametrized by its mean <span class="math inline">\(p_{\text{detect}}\cdot I(w)\)</span> and precision <span class="math inline">\(\tau\)</span>:</p>
+<p><span class="math display">\[
+i_w \sim \textrm{NegativeBinomial}\big(p_{\text{detect}}\cdot I(w), \tau\big).
+\]</span> with</p>
+<p><span class="math display">\[
+\tau \sim \textrm{InverseGamma}(2,3), \quad \text{and}\quad p_{\text{detect}} \sim \textrm{Beta}(2,1).
+\]</span></p>
+<p><a href="#tbl-parameters">Table&nbsp;2</a> contains information regarding the priors for all parameters. Trajectories for the model were simulated via the <code>DifferentialEquations</code> package using the <code>Rodas4</code> algorithm <span class="citation" data-cites="rackauckas2017differentialequations">(<a href="#ref-rackauckas2017differentialequations" role="doc-biblioref">10</a>)</span>. Parameter fitting was done via No-U-Turn-Sampling (NUTS) with the <code>Turing</code> library in <code>Julia</code> version 1.8.2 <span class="citation" data-cites="ge2018turing bezanson2012julia hoffman2014no">(<a href="#ref-ge2018turing" role="doc-biblioref">11</a>–<a href="#ref-hoffman2014no" role="doc-biblioref">13</a>)</span>. We used the <span class="math inline">\(\hat{R}\)</span> and Gelman-Rubin’s test to assess convergence <span class="citation" data-cites="gelman1992inference">(<a href="#ref-gelman1992inference" role="doc-biblioref">14</a>)</span>. All graphics were done in <code>R</code> version 4.2.1 (2022-06-23) using <code>ggplot2</code> <span class="citation" data-cites="ggplot2 R">(<a href="#ref-ggplot2" role="doc-biblioref">15</a>,<a href="#ref-R" role="doc-biblioref">16</a>)</span>.</p>
+</section>
+<section id="estimation-of-the-basic-reproductive-number-mathcalr_0" class="level4">
+<h4 class="anchored" data-anchor-id="estimation-of-the-basic-reproductive-number-mathcalr_0">Estimation of the basic reproductive number, <span class="math inline">\(\mathcal{R}_0\)</span></h4>
+<p>TBD</p>
+</section>
+<section id="scenario-simulation" class="level4">
+<h4 class="anchored" data-anchor-id="scenario-simulation">Scenario simulation</h4>
+<p>We used the simulated posterior distribution of the model’s parameters to construct the baseline scenario with no vaccination <span class="math inline">\(\nu = 0\)</span>. We then repeated the simulations under different vaccination rate scenarios <span class="math inline">\(\{\nu_i\}\)</span>.</p>
+</section>
+</section>
+<section id="code-and-data-availability" class="level3">
+<h3 class="anchored" data-anchor-id="code-and-data-availability">Code and data availability</h3>
+<p>Both the code for the model and the data can be found in our <a href="https://github.com/RodrigoZepeda/mpx">Github repository</a></p>
+</section>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<div class="cell">
+
+</div>
+<p>By October 30 2022 a total of 1601 cases have been reported for Mexico City. <a href="#fig-model-incidence">Figure&nbsp;2</a> shows the reported number of incident cases as well as the inferred number of total incident cases in the city. The average probability of detection was 65.66% with 95% credible interval [13.53%, 98.39%]. Under the current scenario the epidemic is expected to extinguish by January 16 2023 with a total of 2790 [1529,2790] cumulative cases.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-model-incidence" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="images/incidence.svg" class="img-fluid figure-img" style="width:100.0%"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;2: Expected and observed number of MPX cases in Mexico City</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+
+</div>
+<p><a href="#fig-model-vaccination-rates">Figure&nbsp;3</a> shows the different outcomes of cumulative cases under different vaccination rates <span class="math inline">\(\nu\)</span>. With vaccination, the overall cases would reduce up to 459 [459,788].</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-model-vaccination-rates" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="images/vaccination_rates.svg" class="img-fluid figure-img" style="width:100.0%"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;3: Expected outcomes according to different vaccination rates <span class="math inline">\(\nu\)</span> in Mexico City</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="discussion" class="level2">
+<h2 class="anchored" data-anchor-id="discussion">Discussion</h2>
+<p>Even under a small vaccination rate, the model shows a potential reduction in overall monkeypox cases in Mexico City.</p>
+</section>
+<section id="references" class="level2">
+
+
+</section>
+
+
+
+<div id="quarto-appendix" class="default"><section id="sec-diffeq" class="level2 appendix"><h2 class="quarto-appendix-heading">Model</h2><div class="quarto-appendix-contents">
+
+<p>The compartmental diagram of the model is the following:</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-diagram-model" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="images/model_diagram.svg" class="img-fluid figure-img" style="width:100.0%"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;1: Diagram of the model. Bright red node <span class="math inline">\(P_{SI}\)</span> is the main driver of the infection as it represents a partnership between a Susceptible and an Infected individual. This partnership irradiates the infection towards <span class="math inline">\(P_{EI}\)</span> if the susceptible becomes infected and the partnership continues. The partnership might also dissolve into the susceptible <span class="math inline">\(S\)</span> and the infected <span class="math inline">\(I\)</span> or might not result in an infection but a recovery of the infected partner <span class="math inline">\(P_{SR}\)</span>.</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;4: Diagram of the model. Bright red node <span class="math inline">\(P_{SI}\)</span> is the main driver of the infection as it represents a partnership between a Susceptible and an Infected individual. This partnership irradiates the infection towards <span class="math inline">\(P_{EI}\)</span> if the susceptible becomes infected and the partnership continues. The partnership might also dissolve into the susceptible <span class="math inline">\(S\)</span> and the infected <span class="math inline">\(I\)</span> or might not result in an infection but a recovery of the infected partner <span class="math inline">\(P_{SR}\)</span>.</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
-<p>The variables of the model are specified in <a href="#tbl-variables">Table&nbsp;1</a>.</p>
+<p>Where the variables are specified in <a href="#tbl-variables">Table&nbsp;1</a>.</p>
 <div id="tbl-variables" class="anchored">
 <table class="table">
 <caption>Table&nbsp;1: Variables used in the model <a href="#eq-model">Equation&nbsp;1</a>.</caption>
@@ -154,12 +260,25 @@ div.csl-indent {
 <td><span class="math inline">\(P_{kl}\)</span></td>
 <td><strong>Partnership</strong> of two individuals in which one partner belongs to category <span class="math inline">\(k\)</span> and the other to category <span class="math inline">\(l\)</span> (<em>e.g.</em> <span class="math inline">\(P_{SI}\)</span> represents a partnership between a susceptible <span class="math inline">\(S\)</span> and an infected <span class="math inline">\(I\)</span> individual).</td>
 </tr>
+<tr class="odd">
+<td><span class="math inline">\(C\)</span></td>
+<td><strong>Overall</strong> cummulative infective cases. Total numner of infective cases independent of partnership status over all of the pandemic</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(T\)</span></td>
+<td><strong>Overall</strong> total infective cases. Total number of infective cases at a moment in time. Independent of partnership status.</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\textrm{Inc}\)</span></td>
+<td><strong>Overall</strong> incident cases. New cases independent of partnership status.</td>
+</tr>
 </tbody>
 </table>
 </div>
-<p>The differential equations representation for the model is: <span id="eq-model"><span class="math display">\[
+<p>The differential equation representation is given by:</p>
+<p><span id="eq-model"><span class="math display">\[
 \begin{align}
-\frac{dS}{dt}      &amp;= -(\rho + \nu) S + \sigma (2 P_{SS} + P_{SE} + P_{SI} + P_{SR} + P_{SV})\label{psi}\\
+\frac{dS}{dt}      &amp;= -(\rho + \nu) S + \sigma (2 P_{SS} + P_{SE} + P_{SI} + P_{SR} + P_{SV})\\
 \frac{dE}{dt}      &amp;= -(\rho + \theta) E + \sigma (P_{SE} + 2 P_{EE} + P_{EI} + P_{ER} + P_{EV})\\
 \frac{dI}{dt}      &amp;= -(\rho + \delta) I + \theta E + \sigma (P_{SI} + P_{EI} + 2P_{II} + P_{IR} + P_{IV})  \\
 \frac{dR}{dt}      &amp;= - \rho R + \delta I + \sigma (P_{SR} + P_{ER} + P_{IR} + 2 P_{RR} + P_{RV})  \\
@@ -180,11 +299,23 @@ div.csl-indent {
 \frac{dP_{RV}}{dt} &amp;= \rho \frac{RV}{N} + \delta P_{IV} + \nu P_{SR} - \sigma P_{RV} \\
 \frac{dP_{VV}}{dt} &amp;= \frac{1}{2} \rho \frac{V^2}{N} + \nu P_{SV}  - \sigma  P_{VV} \\
 \end{align}
-\tag{1}\]</span></span></p>
-<p>With the parameters and their meanings are established in <a href="#tbl-parameters">Table&nbsp;2</a>. As the model was fitted using a Bayesian framework, <em>prior</em> distributions for the parameters are also specified in <a href="#tbl-parameters">Table&nbsp;2</a>.</p>
+\tag{1}\]</span></span> where <span class="math inline">\(N = S + E + I + R + V + \sum_{i,j\in\{S,E,I,R,V\}} P_{ij}\)</span> represents the total number of individuals (MSM) in the population. Initial conditions for the model are given by:</p>
+<p><span class="math display">\[
+\begin{align}
+S(0) &amp;= (N - \tilde{i}_w)\cdot p_{s},\\
+I(0) &amp;= \tilde{i}_w \cdot p_i,\\
+P_{SS}(0) &amp;= (N - \tilde{i}_w)\cdot (1 - p_{s}) \\
+P_{SI}(0) &amp;= (N - \tilde{i}_w)\cdot (1 - p_{i})
+\end{align}
+\]</span> with <span class="math inline">\(\tilde{i_w} = i_w / p_{\text{detect}}\)</span>. The rest of the initial values are equal to zero.</p>
+<p>The parameters and their definitions are established in <a href="#tbl-parameters">Table&nbsp;2</a>.</p>
 <div id="tbl-parameters" class="anchored">
 <table class="table">
 <caption>Table&nbsp;2: Parameters used in the model <a href="#eq-model">Equation&nbsp;1</a>.</caption>
+<colgroup>
+<col style="width: 21%">
+<col style="width: 78%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Parameter</th>
@@ -194,54 +325,121 @@ div.csl-indent {
 <tbody>
 <tr class="odd">
 <td><span class="math inline">\(\rho\)</span></td>
-<td>Partnership formation rate</td>
+<td>Partnership formation rate.</td>
 </tr>
 <tr class="even">
 <td><span class="math inline">\(\sigma\)</span></td>
-<td>Partnership dissolution rate</td>
+<td>Partnership dissolution rate.</td>
 </tr>
 <tr class="odd">
 <td><span class="math inline">\(\nu\)</span></td>
-<td>Vaccination rate</td>
+<td>Vaccination rate.</td>
 </tr>
 <tr class="even">
 <td><span class="math inline">\(\theta\)</span></td>
-<td>Incubation rate</td>
+<td>Incubation rate.</td>
 </tr>
 <tr class="odd">
 <td><span class="math inline">\(\delta\)</span></td>
-<td>Infection recovery rate</td>
+<td>Infection recovery rate.</td>
 </tr>
 <tr class="even">
 <td><span class="math inline">\(h\)</span></td>
-<td>Probability of transmission per contact</td>
+<td>Probability of transmission per contact.</td>
 </tr>
 <tr class="odd">
 <td><span class="math inline">\(\phi\)</span></td>
-<td>Contact rate per partnership</td>
+<td>Contact rate per partnership.</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\varphi\)</span></td>
+<td>Precision of the observed incidence cases.</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(p_{detect}\)</span></td>
+<td>Probability of being a detected case.</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(N\)</span></td>
+<td>The total of MSM in Mexico City</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(p_{s}\)</span></td>
+<td>The proportion of <strong>single</strong> susceptible cases at the beginning of the epidemic.</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(p_{i}\)</span></td>
+<td>The proportion of <strong>single</strong> infected cases at the beginning of the epidemic.</td>
 </tr>
 </tbody>
 </table>
 </div>
-</section>
-<section id="code-availability" class="level2">
-<h2 class="anchored" data-anchor-id="code-availability">Code availability</h2>
-<p>Both the code and the data can be found in our <a href="https://github.com/rodrigoZepeda/mpx">Github repository</a></p>
-</section>
-<section id="references" class="level2 unnumbered">
+<p>The total number of infected individuals at any time <span class="math inline">\(t\)</span> can be estimated as:</p>
+<p><span id="eq-total"><span class="math display">\[
+T = I + P_{SI} + P_{EI} + 2\cdot P_{II} + P_{IR} + P_{IV},
+\tag{2}\]</span></span> and the cumulative number of infected individuals (cumulative cases) is given by the solution to the differential equation:</p>
+<p><span id="eq-cumcases"><span class="math display">\[
+\frac{dC}{dt} = \theta \cdot (E + P_{SE} + P_{EE} + P_{EI} + P_{ER} + P_{EV}).
+\tag{3}\]</span></span></p>
+<p>The number of incident cases at week <span class="math inline">\(w\)</span>, <span class="math inline">\(\textrm{Inc}(w)\)</span> is given by the difference in cumulative cases <a href="#eq-cumcases">Equation&nbsp;3</a>:</p>
+<p><span class="math display">\[
+\textrm{Inc}(w) = C(w+1) - C(w).
+\]</span></p>
+</div></section><section id="sec-diffeq" class="level2 appendix"><h2 class="quarto-appendix-heading">Parameter distributions</h2><div class="quarto-appendix-contents">
 
-
-</section>
-
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
-<div id="ref-betti2022pair" class="csl-entry" role="doc-biblioentry">
-Betti, Matthew, Lauren Farrell, and Jane M Heffernan. 2022. <span>“A Pair Formation Model with Recovery: Application to Monkeypox.”</span> <em>medRxiv</em>.
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/parameters.svg" class="img-fluid"></p>
 </div>
-<div id="ref-kretzschmar2017pair" class="csl-entry" role="doc-biblioentry">
-Kretzschmar, Mirjam, and Janneke CM Heijne. 2017. <span>“Pair Formation Models for Sexually Transmitted Infections: A Primer.”</span> <em>Infectious Disease Modelling</em> 2 (3): 368–78.
+</div>
+</div></section><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" role="doc-bibliography">
+<div id="ref-philpott2022epidemiologic" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Philpott D. Epidemiologic and clinical characteristics of monkeypox cases—united states, may 17–july 22, 2022. MMWR Morbidity and Mortality Weekly Report. 2022;71. </div>
+</div>
+<div id="ref-hadeler2012pair" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Hadeler KP. Pair formation. Journal of mathematical biology. 2012;64(4):613–45. </div>
+</div>
+<div id="ref-kraemer2022tracking" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Kraemer MU, Tegally H, Pigott DM, Dasgupta A, Sheldon J, Wilkinson E, et al. Tracking the 2022 monkeypox outbreak with epidemiological data in real-time. The Lancet Infectious Diseases. 2022; </div>
+</div>
+<div id="ref-liu2022monkeypox" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Liu X, Zhu Z, He Y, Lim JW, Lane B, Wang H, et al. Monkeypox claims new victims: The outbreak in men who have sex with men. Infectious Diseases of Poverty. 2022;11(1):1–3. </div>
 </div>
 <div id="ref-mpxdge" class="csl-entry" role="doc-biblioentry">
-Secretaría de Salud. 2022. <span>“Informes Semanales Con Información de Viruela Símica En México.”</span> <em>Secretaría de Salud</em>. <a href="https://www.gob.mx/salud/documentos/informes-semanales-para-la-vigilancia-epidemiologica-de-viruela-simica-en-mexico">https://www.gob.mx/salud/documentos/informes-semanales-para-la-vigilancia-epidemiologica-de-viruela-simica-en-mexico</a>.
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">Secretaría de Salud. Informes semanales con información de viruela símica en méxico [Internet]. Secretaría de Salud. 2022. Available from: <a href="https://www.gob.mx/salud/documentos/informes-semanales-para-la-vigilancia-epidemiologica-de-viruela-simica-en-mexico">https://www.gob.mx/salud/documentos/informes-semanales-para-la-vigilancia-epidemiologica-de-viruela-simica-en-mexico</a></div>
+</div>
+<div id="ref-indre" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">Secretaría de Salud. 501. InDRE transfiere tecnología a estados para diagnóstico de viruela símica [Internet]. Secretaría de Salud. 2022. Available from: <a href="https://www.gob.mx/salud/prensa/501-indre-transfiere-tecnologia-a-estados-para-diagnostico-de-viruela-simica?idiom=es">https://www.gob.mx/salud/prensa/501-indre-transfiere-tecnologia-a-estados-para-diagnostico-de-viruela-simica?idiom=es</a></div>
+</div>
+<div id="ref-betti2022pair" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">7. </div><div class="csl-right-inline">Betti M, Farrell L, Heffernan JM. A pair formation model with recovery: Application to monkeypox. medRxiv. 2022; </div>
+</div>
+<div id="ref-kretzschmar2017pair" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">8. </div><div class="csl-right-inline">Kretzschmar M, Heijne JC. Pair formation models for sexually transmitted infections: A primer. Infectious Disease Modelling. 2017;2(3):368–78. </div>
+</div>
+<div id="ref-hadeler1988models" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">9. </div><div class="csl-right-inline">Hadeler K, Waldstätter R, Wörz-Busekros A. Models for pair formation in bisexual populations. Journal of mathematical biology. 1988;26(6):635–49. </div>
+</div>
+<div id="ref-rackauckas2017differentialequations" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">10. </div><div class="csl-right-inline">Rackauckas C, Nie Q. Differentialequations.jl–a performant and feature-rich ecosystem for solving differential equations in julia. Journal of Open Research Software. 2017;5(1):15. </div>
+</div>
+<div id="ref-ge2018turing" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">11. </div><div class="csl-right-inline">Ge H, Xu K, Ghahramani Z. Turing: A language for flexible probabilistic inference. In: International conference on artificial intelligence and statistics. PMLR; 2018. p. 1682–90. </div>
+</div>
+<div id="ref-bezanson2012julia" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">12. </div><div class="csl-right-inline">Bezanson J, Karpinski S, Shah VB, Edelman A. Julia: A fast dynamic language for technical computing. arXiv preprint arXiv:12095145. 2012; </div>
+</div>
+<div id="ref-hoffman2014no" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">13. </div><div class="csl-right-inline">Hoffman MD, Gelman A, et al. The no-u-turn sampler: Adaptively setting path lengths in hamiltonian monte carlo. J Mach Learn Res. 2014;15(1):1593–623. </div>
+</div>
+<div id="ref-gelman1992inference" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">14. </div><div class="csl-right-inline">Gelman A, Rubin DB. Inference from iterative simulation using multiple sequences. Statistical science. 1992;457–72. </div>
+</div>
+<div id="ref-ggplot2" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">15. </div><div class="csl-right-inline">Wickham H. ggplot2: Elegant graphics for data analysis [Internet]. Springer-Verlag New York; 2016. Available from: <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a></div>
+</div>
+<div id="ref-R" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">16. </div><div class="csl-right-inline">R Core Team. R: A language and environment for statistical computing [Internet]. Vienna, Austria: R Foundation for Statistical Computing; 2022. Available from: <a href="https://www.R-project.org/">https://www.R-project.org/</a></div>
 </div>
 </div></section></div></main>
 <!-- /main column -->

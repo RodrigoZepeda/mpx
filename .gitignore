@@ -8,6 +8,8 @@
 
 old_functions/
 References/
+simulations/
+presentations/
 
 mpx
 !mpx.stan
